@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
-//var dbRouter = require('./routes/db');
+//var dbRouter = require('./routes/db')aa12345;
 var streaming_termination = require('./routes/streaming_termination');
 var get_testRouter = require('./routes/get_test');
 //var testRouter = require('./routes/test');
@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/db', dbRouter);
 app.use('/streaming_termination', streaming_termination);
 app.use('/get_test', get_testRouter);
-//app.use('/test', testRouter);
+//app.use('/test', testRouter)111;
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/sign_up', sign_up);

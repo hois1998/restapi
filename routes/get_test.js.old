@@ -1,0 +1,52 @@
+var express = require('express');
+const { exec } = require("child_process");
+var bodyParser = require('body-parser');
+
+let jwt = require("jsonwebtoken");
+let secretObj = require("../config/secret_key");
+
+var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.post('/', function(req, res, next) {
+
+    //var name = req.body.name;
+    //var number = req.body.number;
+
+    var num = req.body.num;
+    var lec = req.body.lec;
+    
+    let token = req.body.token;
+    let decoded = jwt.verify(token, secretObj.secret);
+    
+    if (decoded) {
+      exec("node ../../DynamoDB_Functions/node_modules/aws-sdk/get_test.js " + num + " " + lec, (error, stdout, stderr) => {
+          if (error) {
+              console.log(`error: ${error.message}`);
+              return;
+          }
+          if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+          }
+          else {
+              console.log(`stdout: ${stdout}`);
+  
+              if (stdout.length < 5){
+                res.send('Invalid ID, PW');
+              }
+              else {
+                res.send(stdout);
+              }
+              return;
+          }
+      });
+    }
+    else {
+        res.send('Invalid token');
+    }
+});
+
+module.exports = app;

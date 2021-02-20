@@ -1,0 +1,171 @@
+var express = require('express');
+//let router = express.Router();
+var end = require("/home/ubuntu/saveStreamKey.js");
+var fileread = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/fileread_test.js");
+
+const { exec } = require("child_process");
+var bodyParser = require('body-parser');
+
+const fs = require('fs');
+
+var app = express();
+
+var homedir = "/media/endpoint";
+var files = fs.readdirSync(homedir);
+var path = require('path');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.post('/', function(req, res, next) {
+
+    //var name = req.body.name;
+    //var number = req.body.number;
+
+    var num = req.body.num;
+    var name = req.body.name;
+    var lec_id = req.body.lec_id;
+    //var supervNum = req.body.supervNum;
+    
+    let date_ob = new Date();
+
+    // adjust 0 before single digit date
+    let day = ("0" + date_ob.getDate()).slice(-2);
+    
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    
+    // current year
+    let year = date_ob.getFullYear();
+    
+    // prints date in YYYYMMDD format
+    var date = year + month + day;
+
+    var hour = date_ob.getHours();
+    var minute = date_ob.getMinutes();
+
+    var time = hour + minute;
+
+exec("node ./mysql_function/specify_lec_mysql.js " + date + " lec", (error, stdout, stderr) => {
+                        if (error) {
+                            console.log(`error: ${error.message}`);
+                            return;
+                        }
+                        if (stderr) {
+                            console.log(`stderr: ${stderr}`);
+                            return;
+                        }
+                        else {
+                            console.log(`stdout: ${stdout}`);
+                            if (stdout.length < 5){
+                                return;
+                            }
+                            else {
+                                var lecarr = stdout.split("'");                                
+                            }
+                
+                            return;
+                        }
+                    });
+exec("node ./mysql_function/specify_lec_mysql.js " + date + " test", (error, stdout, stderr) => {
+                        if (error) {
+                            console.log(`error: ${error.message}`);
+                            return;
+                        }
+                        if (stderr) {
+                            console.log(`stderr: ${stderr}`);
+                            return;
+                        }
+                        else {
+                            console.log(`stdout: ${stdout}`);
+                            if (stdout.length < 5){
+                                return;
+                            }
+                            else {
+                                var testarr = stdout.split("'");                                
+                            }
+                
+                            return;
+                        }
+                    });
+
+
+setupTimeout(function(){    
+    exec("node ./mysql_function/specify_lec_mysql.js " + date + " tablename", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        else {
+            console.log(`stdout: ${stdout}`);
+            if (stdout.length < 5){
+                res.send('error');
+            }
+            else {
+
+	   var tablenamearr = stdout.split("'");
+                //var i = 0;
+            
+                for (var i = 0; i<tablearr.length; i++){
+            
+                    /*var index = stdout.indexOf ("tablename: '", i);
+                    var endindex = stdout.indexOf("',", index+13);
+                    var tablename = stdout.substring(index+12, endindex);*/
+                    console.log(tablename);
+                    setTimeout(function(){
+                        i = index;
+                    }, 0);
+                    exec("node ./mysql_function/Identification_mysql.js " + num + " " + tablearr(2*i + 1), (error, stdout, stderr) => {
+                        if (error) {
+                            console.log(`error: ${error.message}`);
+                            return;
+                        }
+                        if (stderr) {
+                            console.log(`stderr: ${stderr}`);
+                            return;
+                        }
+                        else {
+                            console.log(`stdout: ${stdout}`);
+                            if (stdout.length < 5){
+                                return;
+                            }
+                            else {
+                                var startd = stdout.indexOf("supervNum: '");
+                                //var end2 = stdout.indexOf("'}", startd+8);
+                                var supervNum = stdout.substring(startd+12, startd+13);
+                                console.log(supervNum);
+                                
+                                lec_id = lecarr(2*i + 1) + "." + testarr(2*i + 1) + "_" + date;
+                
+                                var endpoint;
+                
+                                try {
+                                    endpoint = fileread.file_read(num, lec_id, supervNum);
+                                    res.send(endpoint);
+                                } catch (err) {
+                                    endpoint = end.saveStreamKey(num, lec_id, supervNum);
+                                    res.send(endpoint);
+                                }
+                                
+                            }
+                
+                            return;
+                        }
+                    });
+                    
+               }
+               
+            }
+
+            return;
+        }
+    });
+}, 0);
+    
+});
+
+module.exports = app;
