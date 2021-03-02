@@ -33,8 +33,27 @@ app.post('/', async function(req, res, next) {
     let streamkey_list_final = streamkey_list.map(i => {
       if (i == 'null') return i;
       return rtmp_live_url+i;
-    }).join('^');
-    res.send(streamkey_list_final);
+    });
+
+    let streamkey_stringify = '';
+    let cnt = 0;
+
+    for (let url of streamkey_list_final) {
+      if (cnt % 2 == 1) {
+        if (cnt == streamkey_list_final.length-1) {
+          streamkey_stringify += url;
+        } else {
+          streamkey_stringify += (url+'^');
+        }
+      } else {
+        streamkey_stringify += (url+',');
+      }
+      cnt++;
+    }
+    //null,null^null,rtmp://3.35.108.14/channel2/b765a706-66db-492f-88a9-77cf6d6b7a70^null,null^ rtmp://3.35.108.14/channel2/44ff9dde-fcbb-4e14-a4a7-0b25679bb188, rtmp://3.35.108.14/channel2/44ff9dde-fcbb-4e14-a4a7-0b2567dsfafa44^null,null
+
+    console.log('streamkey_stringify', streamkey_stringify)
+    res.end(streamkey_stringify);
 
   } catch (err) {
     console.log(err);

@@ -29,9 +29,9 @@ app.post('/', async function(req, res, next) {
     }
     let returnStr = '';
 
-    for (let i=0; i<result.length; ++i) {
+    for (let i=0; i<result.length; i +=2) {
       returnStr += result[i].id+','+result[i].name+','+result[i].supervNum;
-      if (i != result.length-1) {
+      if (i != result.length-1 && i != result.length-2) {
         returnStr += '^';
       }
     }

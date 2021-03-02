@@ -32,7 +32,7 @@ app.post('/', async function(req, res, next) {
     let test = lec_id.substring(endlec+1, endtest);	//midterm
 
     let testdate = lec_id.substring(endtest+1);
-    console.log(testdate, lec, test);
+
     const tablename = await specify_lec_mysql3(testdate, lec, test);
     if (tablename instanceof Error) {
       throw tablename;
@@ -61,23 +61,28 @@ app.post('/', async function(req, res, next) {
 
     // console.log('item of mac:', mac);
     // console.log(id, supervNum, streamkey);
+    // res.send('out of exam time');
+    // res.send('success');
 
-    let isVideoRecordingPrepared = await video_record.prepare_video_record(tablename, supervNum, streamkey);
-    if (isVideoRecordingPrepared instanceof Error) {
-      throw isVideoRecordingPrepared;
-    }
+    console.log('last check', tablename, supervNum, streamkey);
+    setTimeout(async () => {
+      let record_done = await video_record.startFfmpeg(tablename, supervNum, streamkey);
+      if (record_done instanceof Error) {
+        console.log(record_done);
+        res.send(record_done.message);
+        // fs.appendFileSync('/error.log', `on return_endpoint.js \n${record_done}\n`); //
+      } else if (record_done == 0) {
+        console.log('out of exam time');
+        res.send('out of exam time');
+      } else {
+        console.log('aaaaaa');
+        // res.send('success');
+      }
+    }, 3000);
 
-    const rtmpEndpoint = rtmp_live_url+streamkey;
-    res.send(rtmpEndpoint);
-
-    // setTimeout(async () => {
-    //   let record_done = await video_record.startFfmpeg(tablename, supervNum, streamkey);
-    //   if (record_done instanceof Error) {
-    //     fs.appendFileSync('/error.log', `on return_endpoint.js \n${record_done}\n`);
-    //   }
-    // }, 20000);
 
   } catch(err) {
+    console.log('bb');
     console.log(err);
     res.send(err.message);
   }

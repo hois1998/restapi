@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs=require('fs');
 
 const tablename_list_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql");
 const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");
@@ -15,9 +16,9 @@ app.post('/', async function(req, res, next) {
   console.log(req.body);
   console.log('\n--end req body--\n');
 
-  try {
-    const {num, name} = req.body;
-    if (num == undefined || name == undefined) {
+  try { //mac 추가 필요하다
+    const {num, name, mac} = req.body;
+    if (num == undefined || name == undefined || mac == undefined) {
       throw new Error('user omits information');
     }
 
@@ -40,7 +41,7 @@ app.post('/', async function(req, res, next) {
     let tablenameHavingNum = [];
 
     for (let tablename of tablenameList) {
-      let result = await Identification_mysql(num, tablename);
+      let result = await Identification_mysql(num, tablename, mac);
       if (result instanceof Error) {
         throw result;
       } else {
@@ -67,8 +68,9 @@ app.post('/', async function(req, res, next) {
     }
 
     const final_tablename = tablenameHavingNum[idx];
+
     console.log('final_tablename', final_tablename);
-    let add_streamkey = await add_streamkey_mysql(num, final_tablename);
+    let add_streamkey = await add_streamkey_mysql(num, final_tablename, mac);
     if (add_streamkey instanceof Error) {
       throw add_streamkey;
     }

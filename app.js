@@ -28,6 +28,8 @@ var return_endpoint = require('./routes/return_endpoint');
 //var exam_deactivation = require('./routes/exam_deactivation');
 var student_list = require('./routes/student_list');
 var delete_student_data = require('./routes/delete_student_data');
+var server_to_server = require('./routes/server_to_server');
+var streaming_start = require('./routes/streaming_start');
 
 var app = express();
 
@@ -65,6 +67,8 @@ app.use('/return_endpoint', return_endpoint);
 //app.use('/exam_deactivation', exam_deactivation);
 app.use('/student_list', student_list);
 app.use('/delete_student_data', delete_student_data);
+app.use('/server_to_server', server_to_server);
+app.use('/streaming_start', streaming_start);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

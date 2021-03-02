@@ -1,0 +1,12 @@
+#if /foo.* only foo.* in root dir 
+#if foo.* all foo.* in sub and main dir
+#foo/ means foo dir
+*.swp
+
+node_modules/*
+
+routes.old/*
+
+mysql_function.old/*
+
+date_test.js

@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const {execSync} = require('child_process');
 const fs = require('fs');
 
-
-// let fileread = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/fileread_test.js");
+const specify_lec_mysql3 = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql3");
 const post_video_data = require('/home/ubuntu/rest_api/DynamoDB_Functions/node_modules/aws-sdk/post_video_data');
 const return_streamkey_mysql = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/return_streamkey_mysql');
 const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");
@@ -21,22 +20,37 @@ app.post('/', async function(req, res, next) {
   console.log("\n--end req.body--\n");
 
   try {
-    const {num, lec_id, tablename, mac} = req.body; //근데 lec_id는 필요없는 것 같다.
+    const {num, lec_id, name, mac} = req.body; //근데 lec_id는 필요없는 것 같다.
     //2020-12345
     //logicdesign.midterm_20210108
     //logicdesign_midterm_20210108_1400_1530
     //1.1.1.1
 
-    if (num == undefined || lec_id == undefined || tablename == undefined || mac == undefined) {
+    if (num == undefined || lec_id == undefined || name == undefined || mac == undefined) {
       throw new Error('user omits information');
     }
 
+    let endlec = lec_id.indexOf(".");
+    let lec1 = lec_id.substring(0, endlec);	//logicdesign
+
+    let endtest = lec_id.indexOf("_");
+    let test1 = lec_id.substring(endlec+1, endtest);	//midterm
+
+    let testdate1 = lec_id.substring(endtest+1);
+
+    const tablename = await specify_lec_mysql3(testdate1, lec1, test1);
+    if (tablename instanceof Error) {
+      throw tablename;
+    }
+    console.log('tablename', tablename);
     const [lec, test, date, starttime, endtime] = tablename.split('_');
     const lecAndDate = lec+'_'+date;
     const time = starttime+'_'+endtime;
-    const streamkey = await return_streamkey_mysql(tablename, num);
-    const supervNum = (await Identification_mysql(num, tablename)).supervNum;
+    const streamkey = await return_streamkey_mysql(tablename, num, mac);
 
+    console.log('streamkey', streamkey);
+    const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
+    console.log('supervNum', supervNum);
     const s3_location = '/'+date+'/'+lec+'/'+time+'/'+supervNum+'/'+streamkey;
 
     console.log(num, lecAndDate, mac, s3_location);
@@ -53,23 +67,26 @@ app.post('/', async function(req, res, next) {
     const end = endHour*60+endMin;
     // let input = loc.split('/');
     let cnt = 0;
+    let one = 1;  //
     let upload = setInterval(() => {
       let now = (new Date().getHours())*60 + new Date().getMinutes();
 
-      let one = 1;  //
       if (now >= end+1) {  //now >= end
         execSync('sh /var/hls/on_upload.sh' + ' ' + streamkey + ' ' + lec + ' ' + time + ' ' + supervNum);
-        console.log('cnt', cnt);
-        res.send('POST SUCCESS');
+
         clearInterval(upload);
       } else {
-        if (one == 1) {
-          res.send('POST SUCCESS but you ended test before endtime!');
-          one = 0;
-        }
+        console.log('cnt', cnt, "streamkey", streamkey, 'now and end', now, end);
+        cnt++;
+        // if (one == 1) {
+        //   console.log('passed!! one is 1');
+        //   // res.send('POST SUCCESS but you ended test before endtime!');
+        //   one = 0;
+        // }
       }
     }, 2000);
-    return;
+
+    res.send('POST will start soon');
 
   } catch (err) {
     console.log(err);

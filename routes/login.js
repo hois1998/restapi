@@ -9,8 +9,8 @@ const login_mysql = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql
 
 let app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/',async function(req, res, next) {
   const mail_address = req.body.mail_address;
@@ -29,7 +29,10 @@ app.post('/',async function(req, res, next) {
       {
         expiresIn: '60m'
       });
-      res.send(token);
+      res.set({
+        'Content-Type': 'text/css',
+      });
+      res.status(403).send(token);
     }
   } else {
     res.send("email or password wrong");
