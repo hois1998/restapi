@@ -3,10 +3,12 @@
 #foo/ means foo dir
 *.swp
 
-node_modules/*
+**/node_modules/
 
 routes.old/*
 
 mysql_function.old/*
 
 date_test.js
+
+config
