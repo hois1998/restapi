@@ -1,11 +1,9 @@
 // dynamodb_start.js
 var AWS = require('aws-sdk');
-AWS.config.update({
-    region: 'us-east-2',
-    accessKeyId: 'AKIATOUWSIHBXDQRSTVE',
-    secretAccessKey: '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',
-    endpoint: "http://dynamodb.us-east-2.amazonaws.com"
-});
+var config = require('./AWS.config.js');
+
+AWS.config.update(config);
+
 const dynamodb = new AWS.DynamoDB();
 const docClient = new AWS.DynamoDB.DocumentClient();
 const tableName = "Food"
