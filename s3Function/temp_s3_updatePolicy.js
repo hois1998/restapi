@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const { BUCKET, KEY, SECRET } = {BUCKET: "node-sdk-sample-976067b2-cb45-4960-844f-000466192d2f", KEY: "AKIATOUWSIHBUUMUDC4X", SECRET: "MYaEtwH5h2xFXICtKgv/O7VoSmtsZ+ljAs18syxX"};
+const { BUCKET, KEY, SECRET } = {BUCKET: "...", KEY: "...", SECRET: "..."};
 
 AWS.config.update({
 	region: 'ap-northeast-2',
@@ -12,7 +12,7 @@ AWS.config.update({
 let s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 //call s3 to upload specific file to specific bucket
-let uploadParams = {Bucket: 'node-sdk-sample-976067b2-cb45-4960-844f-000466192d2f', Key: '', Body:''};
+let uploadParams = {Bucket: '...', Key: '', Body:''};
 
 var ipPolicy = {
   Version: "2012-10-17", 
