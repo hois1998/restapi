@@ -78,7 +78,7 @@ app.post('/', async function(req, res, next) {
 
   } catch (err) {
     console.log(err);
-    res.send(err.message);  //err.message�� �ٲ��� �Ѵ� �����Ϸ�(2021-02-15)
+    res.send(err.message);
   }
 });
 
