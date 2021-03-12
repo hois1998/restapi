@@ -20,7 +20,7 @@ app.post('/', async function(req, res, next) {
   console.log("\n--end req.body--\n");
 
   try {
-    const {num, lec_id, name, mac} = req.body; //±Ùµ¥ lec_id´Â ÇÊ¿ä¾ø´Â °Í °°´Ù.
+    const {num, lec_id, name, mac} = req.body; //ï¿½Ùµï¿½ lec_idï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
     //2020-12345
     //logicdesign.midterm_20210108
     //logicdesign_midterm_20210108_1400_1530
@@ -61,7 +61,7 @@ app.post('/', async function(req, res, next) {
     }
 
     //check whether exam end or not
-    //½ÃÇè Á¾·á ½Ã°£º¸´Ù ¸ÕÀú Á¾·á°¡ ÀÎ½ÄµÇ¸é s3·Î ¾÷·Îµå ÇÏÁö ¾Ê°í ÀÖ´Ù°¡ Á¾·á½Ã°£ Áö³ª¸é ¾÷·Îµå ÇÏ±â
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á°¡ ï¿½Î½ÄµÇ¸ï¿½ s3ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½Ï±ï¿½
     const endHour = parseInt(endtime.slice(0,2));
     const endMin = parseInt(endtime.slice(2,4));
     const end = endHour*60+endMin;
@@ -157,7 +157,7 @@ app.post('/', async function(req, res, next) {
 //                     }
 //                     else {
 //                         //check whether exam end or not
-//                         //½ÃÇè Á¾·á ½Ã°£º¸´Ù ¸ÕÀú Á¾·á°¡ ÀÎ½ÄµÇ¸é s3·Î ¾÷·Îµå ÇÏÁö ¾Ê°í ÀÖ´Ù°¡ Á¾·á½Ã°£ Áö³ª¸é ¾÷·Îµå ÇÏ±â
+//                         //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á°¡ ï¿½Î½ÄµÇ¸ï¿½ s3ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½Ï±ï¿½
 //                         let endHour = parseInt(examTime.substring(5,7));
 //                         let endMin = parseInt(examTime.substring(7,9));
 //                         let end = endHour*60+endMin;
