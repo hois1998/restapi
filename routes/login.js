@@ -29,10 +29,7 @@ app.post('/',async function(req, res, next) {
       {
         expiresIn: '60m'
       });
-      res.set({
-        'Content-Type': 'text/css',
-      });
-      res.status(403).send(token);
+      res.send(token);
     }
   } else {
     res.send("email or password wrong");

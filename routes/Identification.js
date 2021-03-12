@@ -16,7 +16,7 @@ app.post('/', async function(req, res, next) {
   console.log(req.body);
   console.log('\n--end req body--\n');
 
-  try { //mac Ãß°¡ ÇÊ¿äÇÏ´Ù
+  try { //mac ï¿½ß°ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½
     const {num, name, mac} = req.body;
     if (num == undefined || name == undefined || mac == undefined) {
       throw new Error('user omits information');
@@ -31,7 +31,7 @@ app.post('/', async function(req, res, next) {
 
     let hours = date_ob.getHours();
     let mins = date_ob.getMinutes();
-    const totNow = 60*hours + mins;
+    const totNow = 60*hours + mins; //get current time as miniute scale
 
     const tablenameList = await tablename_list_mysql(date);
     if (tablenameList instanceof Error) {
@@ -50,6 +50,8 @@ app.post('/', async function(req, res, next) {
         }
       }
     }
+
+    
 
     let starttimeOfTheTable = tablenameHavingNum.map(i => {
       let starttime = i.split('_')[3];

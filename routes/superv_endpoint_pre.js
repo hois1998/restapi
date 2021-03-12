@@ -26,20 +26,27 @@ app.post('/', async function(req, res, next) {
     const faculty_information = await login_mysql(mail_address, PW);
 
     let date_ob = new Date();
+    console.log(faculty_information);
+    console.log(`superv_endpoint_pre date ${date_ob}`);
 
     let day = ("0" + date_ob.getDate()).slice(-2);  // adjust 0 before single digit date
     let month = ("0" + (date_ob.getMonth() + 1)).slice(-2); // current month
     let year = date_ob.getFullYear();     // current year
     let date = year + month + day;  // prints date in YYYYMMDD format
-
+    console.log('date obj', date);
     let today_lec_id = [];
     let max_lec_id = 8;
+
     for (let i=1; i<=max_lec_id; ++i) {
       let lec_id = faculty_information['lec_id'+i];
-      if (lec_id != null) {
+
+      if (lec_id != null && lec_id != 'null') {
+        console.log('passing');
+        //lec_id: lec_0301.midterm_20210310
         let [lec, test] = lec_id.split('_')[0].split('.');  //['logicdesign', 'midterm']
         let testdate = lec_id.split('_')[1];  //20210202
-        if (parseInt(testdate) >= parseInt(date)) {
+        console.log(`testdate ${parseInt(testdate)} and ${parseInt(date)}`)
+        if (parseInt(testdate) >= parseInt(date)) { //don't compare specific start time and end time but only comapre date of current
           today_lec_id.push([testdate, lec, test]);
         }
       } else break;
@@ -47,10 +54,15 @@ app.post('/', async function(req, res, next) {
     // console.log('fucture_lec_id', today_lec_id);
 
     let tablename_list = '';
+
+
     let i = 0;
+
     for (let [date, lec, test] of today_lec_id) {
       if (i == 1) tablename_list += '^';
+
       let tablename = await specify_lec_mysql3(date, lec, test);
+      console.log('tablename', tablename);
       tablename = tablename.split('_');
       tablename[3] = tablename[3].slice(0,2) + '_' + tablename[3].slice(2,4);
       tablename[4] = tablename[4].slice(0,2) + '_' + tablename[4].slice(2,4);
@@ -66,7 +78,7 @@ app.post('/', async function(req, res, next) {
 
   } catch (err) {
     console.log(err);
-    res.send(err.message);  //err.message·Î ¹Ù²ã¾ß ÇÑ´Ù ¼öÁ¤¿Ï·á(2021-02-15)
+    res.send(err.message);  //err.messageï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½(2021-02-15)
   }
 });
 
