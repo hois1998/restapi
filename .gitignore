@@ -1,16 +1,19 @@
 #if /foo.* only foo.* in root dir 
 #if foo.* all foo.* in sub and main dir
-#foo/ means foo dir
+#foo/ means foo dir everywhere
+
 *.swp
+node_modules
 
-**/node_modules/
-
+#routes.old is backup dir for routes
 routes.old/*
-
+#mysql_function.old is backup dir for mysql_function
 mysql_function.old/*
-
-date_test.js
-
-config/*
+#config dir contains private information
+config
+#negate nginx-rtmp-module config dir
+!nginx_source_file_and_confFile/nginx-rtmp-module/config
 
 **/AWS.config.js
+
+
