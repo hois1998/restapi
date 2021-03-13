@@ -7,7 +7,7 @@ const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/
 const updateObjAcl = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/aws_function/s3_updateObjAcl');
 //update s3 objects in specific dir to become public-read or private by supervisor clients
 //if it returns 1, means no error and returns 0, means error ouccur
-const get_test_dynamoDB = require("/home/ubuntu/rest_api/DynamoDB_Functions/node_modules/aws-sdk/get_test_dynamoDB");
+const get_video_data = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/DynamoDB_Function/aws-sdk/get_video_data");
 const BUCKET = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/bucket');
 
 
@@ -30,11 +30,11 @@ app.post('/', async function(req, res, next) {	//youngho change function to asyn
 
     const decoded = jwt.verify(token, secretObj.secret);
     // console.log('print');
-    // console.log(get_test_dynamoDB);
+    // console.log(get_video_data);
     //
-    // console.log('typeof', typeof(get_test_dynamoDB));
+    // console.log('typeof', typeof(get_video_data));
 
-    let result = await get_test_dynamoDB(num, lecAndDate);
+    let result = await get_video_data(num, lecAndDate);
     if (result instanceof Error) {
       throw result;
     }

@@ -1,3 +1,4 @@
+// post_video_data.js
 const AWS = require('aws-sdk');
 const {KEY, SECRET} = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/aws_config');
 
@@ -11,32 +12,27 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB();
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-async function getData(num, lecAndDate) {
+module.exports = async function (num, lecAndDate, mac, s3_location) {
   try {
     const params = {
       TableName: "video_data",
-      Key: {
-          "Student Number": num,
-          "Lecture": lecAndDate,
+      Item: {
+        "Student Number": num,
+        "Lecture": lecAndDate,
+        "MAC Address": mac,
+        "File Location": s3_location
       }
     };
 
-    let result = await docClient.get(params).promise();
+    let result = docClient.put(params).promise();
 
     if (result instanceof Error) {
       throw result;
     }
 
-    return result.Item;
-  } catch(err) {
-    console.log('get_test_dynamoDB.js\n'+err);
+    return 'successfully uploaded video data';
+  } catch (err) {
+    console.log('post_video_data\n'_err);
     return err;
   }
-};
-
-// (async function() {
-//   let temp = await getData('2021-11111', 'chemistry1_20210213');
-//   console.log(temp);
-// })();
-
-module.exports = getData;
+}
