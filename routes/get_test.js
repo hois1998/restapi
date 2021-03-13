@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
-const updateObjAcl = require('/home/ubuntu/awsSdk_youngho/temp_s3_updateObjAcl.js'); //youngho
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
+const updateObjAcl = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/aws_function/s3_updateObjAcl');
+//update s3 objects in specific dir to become public-read or private by supervisor clients
+//if it returns 1, means no error and returns 0, means error ouccur
 const get_test_dynamoDB = require("/home/ubuntu/rest_api/DynamoDB_Functions/node_modules/aws-sdk/get_test_dynamoDB");
 const BUCKET = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/bucket');
 

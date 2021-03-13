@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require("jsonwebtoken");
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
 const sign_up_mysql2 = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/sign_up_mysql2');
 
 let app = express();
