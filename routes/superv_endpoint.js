@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
 const find_streamkey_on_tablename_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/find_streamkey_on_tablename_mysql");
 const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/routes/rtmp_live_url");
 

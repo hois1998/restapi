@@ -3,7 +3,7 @@ const { exec, execSync } = require("child_process");
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
 const login_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/login_mysql");
 const add_exam_data_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_exam_data_mysql");
 
@@ -27,7 +27,7 @@ app.post('/', async function(req, res, next) {
 
     const {lec, test, testdate, starttime, endtime} = req.body;
     const tablename = lec+'_'+test+'_'+testdate+'_'+starttime+'_'+endtime;
-    const lec_id = lec + "." + test + "_" + testdate; //¿Ö ÇÊ¿äÇÏÁö?
+    const lec_id = lec + "." + test + "_" + testdate; //ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½?
 
     const faculty_information = await login_mysql(mail_address, PW);
     if (faculty_information instanceof Error) {

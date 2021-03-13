@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
 const updateObjAcl = require('/home/ubuntu/awsSdk_youngho/temp_s3_updateObjAcl.js');
 const BUCKET = ('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/bucket')
 

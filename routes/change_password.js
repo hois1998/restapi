@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require("jsonwebtoken");
 const bodyParser = require('body-parser');
 
-const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/secret_key");
+const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
 const change_password_mysql = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/change_password_mysql');
 
 let app = express();

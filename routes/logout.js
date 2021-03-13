@@ -3,7 +3,7 @@ const { exec } = require("child_process");
 var bodyParser = require('body-parser');
 
 let jwt = require("jsonwebtoken");
-let secretObj = require("../config/secret_key");
+let secretObj = require("../config/jwt_secretKey");
 
 var app = express();
 
