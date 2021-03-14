@@ -8,6 +8,7 @@
   },
   "author": "younghoSNU",
   "dependencies": {
+    "async": "^3.2.0",
     "body-parser": "^1.19.0",
     "child_process": "^1.0.2",
     "clean-css": "^4.1.11",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "morgan": "~1.9.1",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "recursive-readdir": "^2.2.2"
   }
 }

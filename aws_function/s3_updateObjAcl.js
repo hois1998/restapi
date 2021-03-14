@@ -31,7 +31,7 @@ let updatePrivateParams = {
 async function updateObjAcl(pubOrPri, fileLocation) {
   let listParams = {
   	Bucket: BUCKET,
-  	Prefix: '/media' + fileLocation + '/'
+  	Prefix: fileLocation + '/'
   };
 
 	//console.log(listParams.Prefix);
