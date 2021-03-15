@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 
 const secretObj = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/jwt_secretKey");
-const updateObjAcl = require('/home/ubuntu/awsSdk_youngho/temp_s3_updateObjAcl.js');
+const updateObjAcl = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/aws_function/s3_updateObjAcl');
 const BUCKET = ('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/bucket')
 
 
@@ -26,7 +26,7 @@ app.post('/', async function(req, res, next) {	//youngho change function to asyn
     const decoded = jwt.verify(token, secretObj.secret);
 
     let temp = httpUrl.split('/');
-		let fileLocation = '/' + temp[5] + '/' + temp[6];
+		let fileLocation = '/' + temp[4] + '/' + temp[5] + '/' + temp[6] + '/' + temp[7] + '/' + temp[8] + '/' + temp[9];
 
     console.log('fileLocation', fileLocation);
 

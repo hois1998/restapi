@@ -14,12 +14,12 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 module.exports = async function (num, lecAndDate, mac, s3_location) {
   try {
+    const lecAndDateAndMac = lecAndDate+'_'+mac;
     const params = {
       TableName: "video_data",
       Item: {
         "Student Number": num,
-        "Lecture": lecAndDate,
-        "MAC Address": mac,
+        "Lecture": lecAndDateAndMac,
         "File Location": s3_location
       }
     };
@@ -30,9 +30,9 @@ module.exports = async function (num, lecAndDate, mac, s3_location) {
       throw result;
     }
 
-    return 'successfully uploaded video data';
+    return 'successfully uploaded video metadata';
   } catch (err) {
-    console.log('post_video_data\n'_err);
+    console.log('post_video_data\n'+err);
     return err;
   }
 }
