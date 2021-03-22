@@ -1,9 +1,9 @@
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 
-//supervNumÀ» ¹ÞÀ¸¸é 1¹ø ÇÔ¼ö¸¦ ¾Æ´Ï¸é 2¹ø ÇÔ¼ö¸¦ º¸³»±â
+//supervNumï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ 2ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 async function getJSON(tablename, supervNum=null, num=null) {
   let connection;
 
@@ -13,7 +13,7 @@ async function getJSON(tablename, supervNum=null, num=null) {
     const numColumn = 'id';
 
     const [rows, fields] = (supervNum == null && num == null) ? (await connection.execute("SELECT * FROM " + tablename)) : ((supervNum != null) ? (await connection.execute("SELECT * FROM " + tablename + " where "+supervNumColumn+" = '" + supervNum + "'")) : (await connection.execute("SELECT * FROM " + tablename + " where "+numColumn+" = '" + num + "'")));
-    //µÑ ´Ù nullÀÏ¶§´Â ¸®½ºÆ®¸¦ º¸¿©ÁÖ´Â student_list
+    //ï¿½ï¿½ ï¿½ï¿½ nullï¿½Ï¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ student_list
 
     if (rows.length == 0) {
       throw new Error('no student found');
@@ -22,7 +22,7 @@ async function getJSON(tablename, supervNum=null, num=null) {
     connection.end();
 
     if (supervNum == null && num == null) {
-      return rows;  //°ú¸ñ¿¡ ´ëÇÑ ÇÐ»ý ¸®½ºÆ® Á¦°ø
+      return rows;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð»ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     }
 
     return rows.length == 1 ? rows[0] : rows;

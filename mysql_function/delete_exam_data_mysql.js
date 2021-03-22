@@ -1,7 +1,7 @@
 //this code is for drop table:tablename and deleete from exam_data which has tablename = tablename and
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 module.exports = async function getJSON(tablename, lec_id, lec_id_idx, mail_address) {
   let connection;
@@ -15,7 +15,7 @@ module.exports = async function getJSON(tablename, lec_id, lec_id_idx, mail_addr
 
     // await connection.execute("UPDATE faculty_information SET lec_id" + lec_id_idx + " = '" + "null" + "' WHERE mail_address = '" + mail_address + "'");
     await connection.execute("UPDATE faculty_information SET lec_id" + lec_id_idx + "=NULL WHERE mail_address = '" + mail_address + "'");
-    // ¡ØÁÖÀÇ¡Ø ¸¸¾à À§¿¡ string¿¡¼­ NULL´ë½Å 'NULL'À» »ç¿ëÇÏ¸é NULLÀÌ ½ºÆ®¸µÀ¸·Î DB¿¡ µé¾î°£´Ù
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ç¡ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ stringï¿½ï¿½ï¿½ï¿½ NULLï¿½ï¿½ï¿½ 'NULL'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ NULLï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ ï¿½ï¿½î°£ï¿½ï¿½
     let idx_next = lec_id_idx+1;
     let lec_id_max = 8;
 

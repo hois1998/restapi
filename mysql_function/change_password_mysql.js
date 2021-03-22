@@ -1,7 +1,7 @@
 //this code is for change supervisor password when first login to change default password, 'temp_password' and anytime user wants to chage password after first login
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 module.exports = async function(mail_address, PW) {
   let connection;
