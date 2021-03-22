@@ -1,7 +1,7 @@
 //this code is for determining whether the Table:tablename contain studentNum argument inside id column
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 module.exports = async function (studentNum, tablename, mac) {
   let connection;

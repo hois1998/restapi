@@ -1,7 +1,7 @@
 //this code is for creating Table: logicdesign_midterm_20210108_1400_1530 and add exam data to Table:exam_data and lec_id to the faculty_information
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 module.exports = async function getJSON(mail_address, PW, lec, test, testdate, starttime, endtime, tablename, lec_num, lec_id) {
   let connection;
@@ -27,4 +27,4 @@ module.exports = async function getJSON(mail_address, PW, lec, test, testdate, s
 // (async function () {
 //   await getJSON('a@snu.ac.kr', '12', 'aaaaa', 'aaaaa', '20210214', '0111', '0115', 'aaaaa_aaaaa_20210214_0111_0115', 6, 'aaaaa.aaaaa_20210214' );
 // })()
-//ÀÛµ¿È®ÀÎÇÔ
+//ï¿½Ûµï¿½È®ï¿½ï¿½ï¿½ï¿½

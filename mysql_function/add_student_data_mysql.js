@@ -1,7 +1,7 @@
 //this code is for add stdent data to Table: ex) DL_midterm_20210204_1200_1300
 const mysql = require('mysql2/promise');
 
-const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/mysql_connection_option');
+const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
 module.exports = async function(studentNum, studentName, supervNum, tablename) {
   let connection;
