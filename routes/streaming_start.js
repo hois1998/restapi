@@ -65,7 +65,7 @@ app.post('/', async function(req, res, next) {
     // res.send('success');
 
     console.log('last check', tablename, supervNum, streamkey);
-    setTimeout(async () => {
+    setTimeout(async () => {/*
       let record_done = await video_record.startFfmpeg(tablename, supervNum, streamkey);
       if (record_done instanceof Error) {
         console.log(record_done);
@@ -78,7 +78,7 @@ app.post('/', async function(req, res, next) {
         console.log('aaaaaa');
         // res.send('success');
       }
-    }, 3000);
+    */}, 3000);
 
 
   } catch(err) {
