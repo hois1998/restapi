@@ -16,6 +16,8 @@ module.exports = async function(studentNum, studentName, supervNum, tablename) {
       throw new Error(`studnet(${studentNum}) is already registerd`);
     }
 
+
+    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac, faceRecognitionErr, ) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '2')");  //20210510 add because of pc monitor streaming
     await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '1')");
     await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '0')");
 

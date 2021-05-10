@@ -16,7 +16,13 @@ module.exports = async function(studentNum, tablename, mac) {
 
     console.log(rows);
     if (rows[0][column] == 'null') {
-      await connection.execute("UPDATE "+tablename+" SET streamkey = '"+streamkey+"' where id = '"+studentNum+"' and mac ='" + mac + "'");
+      if (mac == '1'/*which means pc device streming*/) {
+        const pcMonitorMac = 2;
+        await connection.execute("UPDATE "+tablename+" SET streamkey = '"+streamkey+"' where id = '"+studentNum+"' and mac ='" + mac + "'");
+        await connection.execute("UPDATE "+tablename+" SET streamkey = '"+streamkey+"' where id = '"+studentNum+"' and mac ='" + pcMonitorMac + "'"); //20210510 add if pc connected, two stream lines are needed: one for studnet webcam and the other for sharing monitor display
+      } else {
+        await connection.execute("UPDATE "+tablename+" SET streamkey = '"+streamkey+"' where id = '"+studentNum+"' and mac ='" + mac + "'");
+      }
     }
 
     connection.end();
