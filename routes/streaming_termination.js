@@ -7,7 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
-const specify_lec_mysql3 = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql3");
+// const specify_lec_mysql3 = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql3");
 const put_video_data = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/DynamoDB_function/aws-sdk/put_video_data');
 const return_streamkey_mysql = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/return_streamkey_mysql');
 const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");
@@ -24,29 +24,29 @@ app.post('/', async function(req, res, next) {
   console.log("\n--end req.body--\n");
 
   try {
-    const {num, lec_id, name, mac} = req.body;
+    const {num, tablename, name, mac} = req.body;
 
     //2020-12345
     //logicdesign.midterm_20210108
     //logicdesign_midterm_20210108_1400_1530
     //mac is binary number. that is, if mac == 1, means webcam, if mac == 0, means smartphone
 
-    if (num == undefined || lec_id == undefined || name == undefined || mac == undefined) {
+    if (num == undefined || tablename == undefined || name == undefined || mac == undefined) {
       throw new Error('user omits information');
     }
 
-    let endlec = lec_id.indexOf(".");
-    let lec1 = lec_id.substring(0, endlec);	//logicdesign
-
-    let endtest = lec_id.indexOf("_");
-    let test1 = lec_id.substring(endlec+1, endtest);	//midterm
-
-    let testdate1 = lec_id.substring(endtest+1);
-
-    const tablename = await specify_lec_mysql3(testdate1, lec1, test1);
-    if (tablename instanceof Error) {
-      throw tablename;
-    }
+    // let endlec = lec_id.indexOf(".");
+    // let lec1 = lec_id.substring(0, endlec);	//logicdesign
+    //
+    // let endtest = lec_id.indexOf("_");
+    // let test1 = lec_id.substring(endlec+1, endtest);	//midterm
+    //
+    // let testdate1 = lec_id.substring(endtest+1);
+    //
+    // const tablename = await specify_lec_mysql3(testdate1, lec1, test1);
+    // if (tablename instanceof Error) {
+    //   throw tablename;
+    // }
 
     console.log('streaming_termination.js tablename\n'+tablename);
 
