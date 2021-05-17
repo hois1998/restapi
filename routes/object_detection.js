@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const add_object_detetection_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_object_detetection_mysql");
+const add_object_detetection_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_object_detection_mysql");
 
 let app = express();
 
@@ -26,12 +26,12 @@ app.post('/', async function(req, res, next) {
 
     let errorJson = {};
     errorJson[detectTime] = object_parsed;
-    let result = add_object_detetection_mysql(num, tablename, mac, errorJson);
+    let result = await add_object_detetection_mysql(num, tablename, mac, errorJson);
 
     if (result == 'success') {
         res.send('success');
     } else {
-      throw new Erroe('err occur on add_object_detetection_mysql');
+      throw new Error('err occur on add_object_detetection_mysql');
     }
 
   } catch (err) {

@@ -14,8 +14,8 @@ module.exports = async function(num, tablename, mac, errorJson) {
     connection = await mysql.createConnection(mysqlConnnectionOpt);
     const column = 'objectDetectionErr';
 
-    const [rows, field] = await connection.execute("SELECT "+column+" FROM " + tablename + " WHERE id='" + studentNum + "' and mac ='" + mac + "'");
-
+    const [rows, field] = await connection.execute("SELECT "+column+" FROM " + tablename + " WHERE id='" + num + "' and mac ='" + mac + "'");
+	
     if (rows[0][column] == null) {
       await connection.execute("UPDATE "+tablename+" SET "+column+" = '"+JSON.stringify(errorJson)+"' where id = '"+num+"' and mac ='" + mac + "'");
     } else {  //need to concatenate stored data with errorJson
@@ -25,7 +25,7 @@ module.exports = async function(num, tablename, mac, errorJson) {
         newJson[propertyName] = errorJson[propertyName];
       }
 
-      console.log('newJson\n', newJson);
+      //console.log('newJson\n', newJson);
 
       await connection.execute("UPDATE "+tablename+" SET "+column+" = '"+JSON.stringify(newJson)+"' where id = '"+num+"' and mac ='" + mac + "'");
     }
@@ -35,6 +35,7 @@ module.exports = async function(num, tablename, mac, errorJson) {
     return 'success';
   } catch (err) {
     connection.end();
+	console.log(err);
     return err;
   }
 }
