@@ -1,5 +1,5 @@
 /*
-this code is for add object detection Error of the studnetNum
+this code is for add face recognition Error of the studnetNum
 to Table: ex) DL_midterm_20210204_1200_1300
 when studnet program send alarm to server
 */
@@ -12,7 +12,7 @@ module.exports = async function(num, tablename, mac, errorJson) {
 
   try {
     connection = await mysql.createConnection(mysqlConnnectionOpt);
-    const column = 'objectDetectionErr';
+    const column = 'faceRecognitionErr';
 
     const [rows, field] = await connection.execute("SELECT "+column+" FROM " + tablename + " WHERE id='" + num + "' and mac ='" + mac + "'");
 
@@ -25,7 +25,7 @@ module.exports = async function(num, tablename, mac, errorJson) {
         newJson[propertyName] = errorJson[propertyName];
       }
 
-      //console.log('newJson\n', newJson);
+      console.log('newJson\n', newJson);
 
       await connection.execute("UPDATE "+tablename+" SET "+column+" = '"+JSON.stringify(newJson)+"' where id = '"+num+"' and mac ='" + mac + "'");
     }
