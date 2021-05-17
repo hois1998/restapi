@@ -1,3 +1,5 @@
+//this code is sending endpoints specific exam and specific supervNum
+//when return endpoints three streamkey per student are given to the supervisor 
 const express = require('express');
 const { exec, execSync } = require("child_process");
 const bodyParser = require('body-parser');
