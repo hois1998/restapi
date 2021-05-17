@@ -1,4 +1,5 @@
-//this code is for determining whether the Table:tablename contain studentNum argument inside id column
+//this code is for determining whether the table which name is 'tablename' var contains studentNum argument inside id column
+//if the table has the studentNum
 const mysql = require('mysql2/promise');
 
 const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
@@ -13,7 +14,6 @@ module.exports = async function (studentNum, tablename, mac) {
     connection.end();
 
     if (rows[0] != undefined) {
-      console.log(rows[0]);
       return rows[0];
     } else return false;
   } catch (err) {
