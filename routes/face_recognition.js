@@ -1,12 +1,9 @@
 //this code is for student clients.
-//when students phone camera detect suspicious objects while taking exam, it send the objects data to server
+//when students pc cam detect suspicious person who is not exptected student while taking exam, it send the error data to server
 const express = require('express');
 const bodyParser = require('body-parser');
-// const fs=require('fs');
 
-const tablename_list_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql"); //input: e.g. date = 20210512, output: tablename_list of array of specific date
-const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");  //input: student number, tablename, mac, output: table metadata or Error instance
-const add_streamkey_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_streamkey_mysql");  //input: student number, tablename, mac output: "success" or Error instance
+const add_face_recognition_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_face_recognition_mysql");
 
 let app = express();
 
@@ -19,24 +16,27 @@ app.post('/', async function(req, res, next) {
   console.log('\n--end req body--\n');
 
   try { //mac is dendine as follow: 0 for phone, 1 for pc webcam, 2 for pc display
-    const {num, name, tablename, mac, objects, detectTime} = req.body;
-    if (num == undefined || name == undefined || tablename == undefined || mac == undefined || objects == undefined || detectTime == undefined) {
+    const {num, name, tablename, mac, degree, detectTime} = req.body;
+    if (num == undefined || name == undefined || tablename == undefined || mac == undefined || degree == undefined || detectTime == undefined) {
       throw new Error('user omits information');
     }
 
-    let object_parsed = JSON.parse(objects);
-    console.log('object_parsed\n', object_parsed);
+    let errorJson = {};
+    errorJson[detectTime] = {degree: degree};
 
-
-    let errorJson = {detectTime: object}
     console.log('errorJson\n', errorJson);
 
-    res.send('done');
+    let result = await add_face_recognition_mysql(num, tablename, mac, errorJson);
+
+    if (result == 'success') {
+        res.send('success');
+    } else {
+      throw new Error('err occur on add_face_recognition_mysql');
+    }
   } catch (err) {
     console.log(err);
     res.send(err.message);
   }
-
 });
 
 module.exports = app;
