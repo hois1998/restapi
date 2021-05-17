@@ -1,37 +1,39 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-//var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
-//var dbRouter = require('./routes/db')aa12345;
-var streaming_termination = require('./routes/streaming_termination');
-var get_testRouter = require('./routes/get_test');
-//var testRouter = require('./routes/test');
-var login = require('./routes/login');
-var logout = require('./routes/logout');
-var sign_up = require('./routes/sign_up');
-var add_student_data = require('./routes/add_student_data');
-var add_exam_data = require('./routes/add_exam_data');
-var delete_exam_data = require('./routes/delete_exam_data');
-var Identification = require('./routes/Identification');
-var superv_endpoint = require('./routes/superv_endpoint');
-var superv_endpoint_pre = require('./routes/superv_endpoint_pre');
-var hlsFinish = require('./routes/hlsFinish');
-var admin_admit = require('./routes/admin_admit');
-var change_password = require('./routes/change_password');
-var get_test_pre = require('./routes/get_test_pre');
-var previousvideo_student_list = require('./routes/previousvideo_student_list');
-var return_endpoint = require('./routes/return_endpoint');
-//var exam_deactivation = require('./routes/exam_deactivation');
-var student_list = require('./routes/student_list');
-var delete_student_data = require('./routes/delete_student_data');
-var server_to_server = require('./routes/server_to_server');
-var streaming_start = require('./routes/streaming_start');
+//let indexRouter = require('./routes/index');
+//let usersRouter = require('./routes/users');
+//let dbRouter = require('./routes/db')aa12345;
+let streaming_termination = require('./routes/streaming_termination');
+let get_testRouter = require('./routes/get_test');
+//let testRouter = require('./routes/test');
+let login = require('./routes/login');
+let logout = require('./routes/logout');
+let sign_up = require('./routes/sign_up');
+let add_student_data = require('./routes/add_student_data');
+let add_exam_data = require('./routes/add_exam_data');
+let delete_exam_data = require('./routes/delete_exam_data');
+let Identification = require('./routes/Identification');
+let superv_endpoint = require('./routes/superv_endpoint');
+let superv_endpoint_pre = require('./routes/superv_endpoint_pre');
+let hlsFinish = require('./routes/hlsFinish');
+let admin_admit = require('./routes/admin_admit');
+let change_password = require('./routes/change_password');
+let get_test_pre = require('./routes/get_test_pre');
+let previousvideo_student_list = require('./routes/previousvideo_student_list');
+let return_endpoint = require('./routes/return_endpoint');
+//let exam_deactivation = require('./routes/exam_deactivation');
+let student_list = require('./routes/student_list');
+let delete_student_data = require('./routes/delete_student_data');
+let server_to_server = require('./routes/server_to_server');
+let object_detection = require('./routes/object_detection');
+let face_recognition = require('./routes/face_recognition');
+// let streaming_start = require('./routes/streaming_start');
 
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -68,7 +70,9 @@ app.use('/return_endpoint', return_endpoint);
 app.use('/student_list', student_list);
 app.use('/delete_student_data', delete_student_data);
 app.use('/server_to_server', server_to_server);
-app.use('/streaming_start', streaming_start);
+app.use('/object_detection', object_detection);
+app.use('/face_recognition', face_recognition);
+// app.use('/streaming_start', streaming_start);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
