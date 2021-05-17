@@ -2,11 +2,8 @@
 //when students phone camera detect suspicious objects while taking exam, it send the objects data to server
 const express = require('express');
 const bodyParser = require('body-parser');
-// const fs=require('fs');
 
-const tablename_list_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql"); //input: e.g. date = 20210512, output: tablename_list of array of specific date
-const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");  //input: student number, tablename, mac, output: table metadata or Error instance
-const add_streamkey_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_streamkey_mysql");  //input: student number, tablename, mac output: "success" or Error instance
+const add_object_detetection_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_object_detetection_mysql");
 
 let app = express();
 
@@ -27,11 +24,16 @@ app.post('/', async function(req, res, next) {
     let object_parsed = JSON.parse(objects);
     console.log('object_parsed\n', object_parsed);
 
+    let errorJson = {};
+    errorJson[detectTime] = object_parsed;
+    let result = add_object_detetection_mysql(num, tablename, mac, errorJson);
 
-    let errorJson = {detectTime: object}
-    console.log('errorJson\n', errorJson);
+    if (result == 'success') {
+        res.send('success');
+    } else {
+      throw new Erroe('err occur on add_object_detetection_mysql');
+    }
 
-    res.send('done');
   } catch (err) {
     console.log(err);
     res.send(err.message);
