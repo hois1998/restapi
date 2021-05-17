@@ -10,7 +10,7 @@ module.exports = async function getJSON(mail_address, PW, lec, test, testdate, s
     let exam_table = 'exam_data';
     let faculty_table = 'faculty_information';
 
-    await connection.execute('CREATE TABLE '+tablename+' (id VARCHAR(32), name VARCHAR(32), supervNum VARCHAR(32), streamkey CHAR(36), mac VARCHAR(32));');
+    await connection.execute('CREATE TABLE '+tablename+' (id VARCHAR(32), name VARCHAR(32), supervNum VARCHAR(32), streamkey CHAR(36), mac VARCHAR(1), faceRecognitionErr VARCHAR(60000), objectDetectionErr VARCHAR(60000));');  //20210510: change varchar(32) to varchar(1) becasue use 1 char: 0 for phone, 1 for pc cam, 2 for pc monitor
     await connection.execute("INSERT INTO "+exam_table+" (lec, test, testdate, starttime, endtime, tablename) VALUES ('" + lec + "', '" + test + "', '" + testdate + "', '" + starttime + "', '" + endtime + "', '" + tablename + "')");
 
     //console.log(faculty_table, lec_num, lec_id, mail_address, PW);
