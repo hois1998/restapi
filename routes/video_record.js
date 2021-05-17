@@ -5,7 +5,7 @@
 const {exec, execSync, execFile} = require('child_process');
 const fs = require('fs');
 
-const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/routes/rtmp_live_url");
+const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/rtmp_live_url");
 const homedir = '/media';
 
 async function mkdir(testdate, lec, time, supervNum, streamkey) {

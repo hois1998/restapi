@@ -5,7 +5,7 @@ const fs = require('fs');
 const specify_lec_mysql3 = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql3");
 // const return_streamkey_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/return_streamkey_mysql");
 const student_list_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/student_list_mysql");
-const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/routes/rtmp_live_url");
+const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/rtmp_live_url");
 const video_record = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/routes/video_record");
 
 const dir = '/home/ubuntu/dir.txt';
