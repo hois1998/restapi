@@ -22,6 +22,10 @@ async function getJSON(tablename, supervNum=null, num=null) {
     if (rows.length == 0) {
       throw new Error('no student found');
     }
+	
+	///test//
+	//console.log(`rows\n${JSON.stringify(rows, null, 4)}`);
+	///////
 
     connection.end();
 
