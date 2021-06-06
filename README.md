@@ -3,9 +3,12 @@
 
 ![원격시험감독_구조도](https://user-images.githubusercontent.com/62315211/110482046-921ec900-812b-11eb-823b-2f6dfbd1d632.jpg)
 
-그리고 해당 인턴활동을 수행하며 정리한 파일에 대해서는 아래의 공유 링크를 통해 볼 수 있다.
+그리고 해당 인턴활동을 수행하며 정리한 파일에 대해서는 아래의 공유 링크를 통해 볼 수 있다. 비밀번호가 존재하면 해당 프로젝트의 팀즈 채널에서 확인할 수 있다. 
+혹은 관련된 사람은 아니나 내용을 확인하고 싶다면 hois1998@snu.ac.kr로 메일부탁드린다.
 
-	https://mysnu-my.sharepoint.com/:o:/g/personal/hois1998_seoul_ac_kr/EhMdaPVLG7dIrN7SI_rrkmkBTe8Q0kbJ8qRg3fWIbfEvnA
+	https://mysnu-my.sharepoint.com/:o:/g/personal/hois1998_seoul_ac_kr/Equ2cuHrTWpIluze_saDq9IBuZnE4SMKjUKSWpj5jEkIFw?e=Mo2Rhr
+![image](https://user-images.githubusercontent.com/62315211/120912858-b9a31480-c6cd-11eb-9739-710ab49bfb64.png)
+
 
 코드 중  대해 부가적인 설명을 추가하면 다음과 같다.
 
