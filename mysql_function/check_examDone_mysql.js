@@ -34,7 +34,7 @@ module.exports = async function getJSON(tablename, streamkey, name=null, num=nul
     connection.end();
 
     return rows;
-    
+
   } catch (err) {
     if (connection != undefined)
       connection.end();
