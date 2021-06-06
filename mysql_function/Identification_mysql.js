@@ -6,6 +6,7 @@ const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/resta
 
 module.exports = async function (studentNum, tablename, mac) {
   let connection;
+
   try {
     connection = await mysql.createConnection(mysqlConnnectionOpt);
 
@@ -17,7 +18,8 @@ module.exports = async function (studentNum, tablename, mac) {
       return rows[0];
     } else return false;
   } catch (err) {
-    connection.end();
+    if (connection != undefined)
+      connection.end();
     return err;
   }
 };

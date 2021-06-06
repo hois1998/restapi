@@ -27,14 +27,14 @@ app.post('/', async function(req, res, next) {
 
     const {lec, test, testdate, starttime, endtime} = req.body;
     const tablename = lec+'_'+test+'_'+testdate+'_'+starttime+'_'+endtime;
-    const lec_id = lec + "." + test + "_" + testdate; //�� �ʿ�����?
+    const lec_id = lec + "." + test + "_" + testdate; //youngho: I think lec_id can be replaced by tablename to optimize code
 
     const faculty_information = await login_mysql(mail_address, PW);
     if (faculty_information instanceof Error) {
       throw faculty_information;
     }
 
-    let lec_id_max = 8;
+    let lec_id_max = 20;
     let lec_num = 1;
     console.log('faculty_information\n----------------\n\n'+faculty_information);
 
@@ -45,10 +45,10 @@ app.post('/', async function(req, res, next) {
         lec_num = i;
         break;
       }
-      // console.log('temp_faculty_information', temp_faculty_information, typeof(temp_faculty_information));
     }
 
     console.log('add_exam_data', mail_address, PW, lec, test, testdate, starttime, endtime, tablename, lec_num, lec_id);
+    
     const result = await add_exam_data_mysql(mail_address, PW, lec, test, testdate, starttime, endtime, tablename, lec_num, lec_id);
     if (result instanceof Error) {
       throw result;

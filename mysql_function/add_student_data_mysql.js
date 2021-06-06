@@ -16,10 +16,10 @@ module.exports = async function(studentNum, studentName, supervNum, tablename) {
       throw new Error(`studnet(${studentNum}) is already registerd`);
     }
 
-
-    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '2')");  //20210510 add because of pc monitor streaming
-    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '1')");
-    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '0')");
+    //below, null is type of string not null type
+    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac, examDone) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '2', 'ready')");  //20210510 add because of pc monitor streaming
+    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac, examDone) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '1', 'ready')");
+    await connection.execute("INSERT INTO " + tablename + " (id, name, supervNum, streamkey, mac, examDone) VALUES('" + studentNum + "', '" + studentName + "', '" + supervNum + "', '" + null + "', '0', 'ready')");
 
     connection.end();
 

@@ -2,19 +2,21 @@
 //after do Identification step and get metadata of exam to take, next step is to get rtmp endpoint to publish media
 //and this code is to return endpoint depending on mac, num, lec_id, student name
 
-//lec_id를 tablename으로 바꾸자
 //서버 ip주소를 제각각 바꿔주는 작업을 추가해야 한다.
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
-// const specify_lec_mysql3 = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/specify_lec_mysql3");
-// const return_streamkey_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/return_streamkey_mysql");
+//rtmp_live_url이 현재는 1개 이지만 추후에 이것을 여러개로 늘려서 load balancing이 되도록 해야한다.
 const student_list_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/student_list_mysql");
 const rtmp_live_url = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/config/rtmp_live_url");
-const video_record = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/routes/video_record");
+const check_examDone_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/check_examDone_mysql");
 
-// const dir = '/home/ubuntu/dir.txt';
+const put_video_data = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/DynamoDB_function/put_video_data');
+const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");  //to get supervNum
+
+
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -31,13 +33,24 @@ app.post('/', async function(req, res, next) {
       throw new Error('user omits information');
     }
 
-    let starttime = tablename.split('_')[3];  //tablename: logicdesign_midterm_20210101_1200_1315
+    const [lec, test, date, starttime, endtime] = tablename.split('_'); //tablename: logicdesign_midterm_20210101_1200_1315
+    const lecAndDate = lec+'_'+date;
+    const time = starttime+'_'+endtime;
+
     let start = parseInt(starttime.slice(0,2))*60+parseInt(starttime.slice(0,2))
+
+
 
     const student = await student_list_mysql(tablename, null, num);
     if (student instanceof Error) {
       throw student;
     }
+    //idnetification_mysql추가하고
+    //sueprvnum얻고 post video하기
+
+    //check_examDone_mysql has (tablename, streamkey, name, num, mac)
+    if ((await check_examDone_mysql(tablename, null, name, num, mac).catch(e => {throw e;}))[0] != 'ready')
+      throw new Error('already return endpoint before');
 
     let id, supervNum, streamkey = {};
 
@@ -64,6 +77,19 @@ app.post('/', async function(req, res, next) {
 
     res.send(rtmpEndpoint);
 
+    const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
+    const s3_location = '/media'+'/'+date+'/'+lec+'/'+time+'/'+supervNum+'/'+streamkey;
+
+    ///////////////test///////////
+    console.log('streaming_termination.js s3_location\n'+s3_location);
+    /////////////////////////////
+
+    //multiple post on dynamodb is okay. it cover previous same data
+    let postResult = await put_video_data(num, lecAndDate, mac, s3_location).catch(err => {throw err;});
+
+    ///////////////test
+    console.log('vidoe post results\n', postResult);
+    ////////////////////
 
   } catch(err) {
     console.log(err);
