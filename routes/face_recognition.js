@@ -16,7 +16,7 @@ app.post('/', async function(req, res, next) {
   console.log('\n--end req body--\n');
 
   try { //mac is dendine as follow: 0 for phone, 1 for pc webcam, 2 for pc display
-    const {num, name, tablename, mac, degree, detectTime, position} = req.body;
+    let {num, name, tablename, mac, degree, detectTime, position} = req.body;
     if (num == undefined || name == undefined || tablename == undefined || mac == undefined || degree == undefined || detectTime == undefined || position == undefined) {
       throw new Error('user omits information');
     }

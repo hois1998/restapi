@@ -23,17 +23,33 @@ app.post('/', async function(req, res, next) {
 
     const decoded = jwt.verify(token, secretObj.secret);
 
-    const result = await student_list_mysql(tablename);
+    const result = await student_list_mysql(tablename, supervNum);
     if (result instanceof Error) {
       throw result;
     }
     let returnStr = '';
 
-    for (let i=0; i<result.length; i +=2) {
-      returnStr += result[i].id+','+result[i].name+','+result[i].supervNum;
-      if (i != result.length-1 && i != result.length-2) {
+	////test
+	//for (let temp of result) {
+	//	console.log(`result\n${JSON.stringify(temp, null, 4)}`);
+	//}
+	//console.log(`length of result ${result.length}`);
+	/////////////
+
+	let mac = 'mac';
+
+    for (let i=0; i<result.length; i +=1) {
+	  //test
+	  //console.log(result[i][mac]);
+	  ///
+	  if (result[i][mac] == '0')
+		returnStr += result[i].id+','+result[i].name+','+result[i].supervNum + '^';
+	  
+	  if (i == result.length-1)
+		returnStr = returnStr.slice(0,returnStr.length-1);
+      /*if (i != result.length-1 && i != result.length-2) {
         returnStr += '^';
-      }
+      }*/
     }
 
     console.log('returnStr:');

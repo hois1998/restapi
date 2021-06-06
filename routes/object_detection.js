@@ -27,6 +27,7 @@ app.post('/', async function(req, res, next) {
     let errorJson = {};
     errorJson[detectTime] = object_parsed;
     let result = await add_object_detection_mysql(num, tablename, mac, errorJson);
+	
 
     if (result == 'success') {
         res.send('success');

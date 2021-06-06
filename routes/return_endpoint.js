@@ -47,12 +47,13 @@ app.post('/', async function(req, res, next) {
     }
     //idnetification_mysql추가하고
     //sueprvnum얻고 post video하기
-
+	
+	let examDone = 'examDone';
     //check_examDone_mysql has (tablename, streamkey, name, num, mac)
-    if ((await check_examDone_mysql(tablename, null, name, num, mac).catch(e => {throw e;}))[0] != 'ready')
+    if ((await check_examDone_mysql(tablename, null, name, num, mac).catch(e => {throw e;}))[0][examDone] != 'ready')
       throw new Error('already return endpoint before');
 
-    let id, supervNum, streamkey = {};
+    let id, /*supervNum,*/ streamkey = {};
 
     //if mac === '1', then return streamkey about mac 2, which is endpoint for pc display
     if (mac === '1') {

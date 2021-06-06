@@ -15,12 +15,17 @@ module.exports = async function(num, tablename, mac, errorJson) {
     const column = 'objectDetectionErr';
 
     const [rows, field] = await connection.execute("SELECT "+column+" FROM " + tablename + " WHERE id='" + num + "' and mac ='" + mac + "'");
-
+	
+	///test
+	//console.log(`rows\n\n\n${JSON.stringify(rows[0])}`);
+	////////
     if (rows[0][column] == null) {
+	  //console.log('pass null');
+
       await connection.execute("UPDATE "+tablename+" SET "+column+" = '"+JSON.stringify(errorJson)+"' where id = '"+num+"' and mac ='" + mac + "'");
     } else {  //need to concatenate stored data with errorJson
       let newJson = JSON.parse(rows[0][column]);
-
+	  
       for (let propertyName of Object.getOwnPropertyNames(errorJson)) {
         newJson[propertyName] = errorJson[propertyName];
       }
