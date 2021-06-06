@@ -1,3 +1,5 @@
+//this code for return stduent list of specific exam and specific supervNum
+//to see student list and let supervisor make decision to add new student
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
