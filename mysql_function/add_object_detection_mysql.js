@@ -34,8 +34,9 @@ module.exports = async function(num, tablename, mac, errorJson) {
 
     return 'success';
   } catch (err) {
-    connection.end();
-	console.log(err);
+    if (connection != undefined)
+      connection.end();
+	   console.log(err);
     return err;
   }
 }

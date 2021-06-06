@@ -10,7 +10,7 @@ module.exports = async function getJSON(mail_address, PW, lec, test, testdate, s
     let exam_table = 'exam_data';
     let faculty_table = 'faculty_information';
 
-    await connection.execute('CREATE TABLE '+tablename+' (id VARCHAR(32), name VARCHAR(32), supervNum VARCHAR(32), streamkey CHAR(36), mac VARCHAR(1), faceRecognitionErr VARCHAR(60000), objectDetectionErr VARCHAR(60000));');  //20210510: change varchar(32) to varchar(1) becasue use 1 char: 0 for phone, 1 for pc cam, 2 for pc monitor
+    await connection.execute('CREATE TABLE '+tablename+' (id VARCHAR(32), name VARCHAR(32), supervNum VARCHAR(32), streamkey CHAR(36), mac VARCHAR(1), faceRecognitionErr VARCHAR(60000), objectDetectionErr VARCHAR(60000), disconnectLog VARCHAR(60000), examDone VARCHAR(32));');  //20210510: change varchar(32) to varchar(1) becasue use 1 char: 0 for phone, 1 for pc cam, 2 for pc monitor
     await connection.execute("INSERT INTO "+exam_table+" (lec, test, testdate, starttime, endtime, tablename) VALUES ('" + lec + "', '" + test + "', '" + testdate + "', '" + starttime + "', '" + endtime + "', '" + tablename + "')");
 
     //console.log(faculty_table, lec_num, lec_id, mail_address, PW);
@@ -27,4 +27,3 @@ module.exports = async function getJSON(mail_address, PW, lec, test, testdate, s
 // (async function () {
 //   await getJSON('a@snu.ac.kr', '12', 'aaaaa', 'aaaaa', '20210214', '0111', '0115', 'aaaaa_aaaaa_20210214_0111_0115', 6, 'aaaaa.aaaaa_20210214' );
 // })()
-//�۵�Ȯ����

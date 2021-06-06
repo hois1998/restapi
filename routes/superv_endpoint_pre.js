@@ -1,3 +1,6 @@
+//this code is for give list of today and future tests which are displayed
+//on main page of viewer client program
+//response tablename_lists
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
@@ -12,6 +15,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/', async function(req, res, next) {
+  console.log("req.body");
+  console.log(req.body);
+  console.log("\n--end req.body--\n");
+
   try {
     const token = req.body.token;
     if (token == undefined) {
@@ -51,7 +58,6 @@ app.post('/', async function(req, res, next) {
         }
       } else break;
     }
-    // console.log('fucture_lec_id', today_lec_id);
 
     let tablename_list = '';
 
