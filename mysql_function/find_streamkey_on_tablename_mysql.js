@@ -1,28 +1,45 @@
+/*
+return array which has entry type of object
+
+*/
 const mysql = require('mysql2/promise');
 
 const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
 
-module.exports = async function getJSON(tablename, supervNum) {
+module.exports = async function getJSON(tablename, supervNum, name=null, mac=null, num=null) {
+  let connection;
+
   try {
-    const connection = await mysql.createConnection(mysqlConnnectionOpt);
-    const column = 'streamkey';
+    connection = await mysql.createConnection(mysqlConnnectionOpt);
+    const column0 = 'id';
+    const column1 = 'streamkey';
+    const column2 = 'mac';
 
-    const [rows, fields] = await connection.execute("SELECT "+column+" FROM "+ tablename +" WHERE supervNum= '"+supervNum+"'");
-    console.log('rows[0]', rows[0]);
+    //if supervNum !== null, use on superv_endpoint.js.
+    //if not, use on streaming_termination.js
+    if (supervNum !== null) {
+      //throw error, if user input wrong tablename which doesn't exist
+      const [rows, fields] = await connection.execute("SELECT "+column0+" , "+column1+" , "+column2+" FROM "+ tablename +" WHERE supervNum= '"+supervNum+"'");
 
-    let streamkey_list_final;
-
-    if (rows.length == 1 && rows[0][column] == 'null') {
-      streamkey_list_final = [];
+      //if rows.length == 0, two cases can be possible
+      //1. worng supervNum
+      //2. no student is created for that supervNum
+      if (rows.length === 0)
+        throw new Error(`wrong supervNum or no student is created for the supervNum ${supervNum}`);
     } else {
-      streamkey_list_final = rows.map(i => i[column]);
+
+      const rows = (await connection.execute("SELECT "+column1+" FROM "+ tablename +" WHERE name= '"+name+"' and mac= '"+mac+"' and id= '"+num+"'"))[0];
+
+      if (rows.length === 0)
+        throw new Error(`wrong name, mac, or num`);
     }
 
-    console.log('streamkey_list_final', streamkey_list_final);
     connection.end();
 
-    return streamkey_list_final;
+    return rows;
   } catch (err) {
-    return err;
+    if (connection != undefined)
+      connection.end();
+    throw err;
   }
 };

@@ -1,7 +1,6 @@
-//this code is sending endpoints specific exam and specific supervNum
-//when return endpoints three streamkey per student are given to the supervisor 
+//this code is sending endpoints of specific exam of specific supervNum
+//when do return endpoints, three streamkey per student are given to the supervisor
 const express = require('express');
-const { exec, execSync } = require("child_process");
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
@@ -22,132 +21,38 @@ app.post('/', async function(req, res, next) {
 
   try {
     const {supervNum, tablename, token} = req.body;
-    const decoded = jwt.verify(token, secretObj.secret);
+    const decoded = jwt.verify(token, secretObj.secret);  //if not valid, thorw error
 
     if (tablename == undefined || supervNum == undefined) {
       throw new Error('user omits information');
     }
 
-    let streamkey_list = await find_streamkey_on_tablename_mysql(tablename, supervNum);
-    if (streamkey_list instanceof Error) {
-      throw streamkey_list;
-    }
-    let streamkey_list_final = streamkey_list.map(i => {
-      if (i == 'null') return i;
-      return rtmp_live_url+i;
-    });
+    let streamkey_id_mac_list = await find_streamkey_on_tablename_mysql(tablename, supervNum).catch(err => {throw err;});
 
-    let streamkey_stringify = '';
-    let cnt = 0;
+    let endpoint_list = {};
 
-    for (let url of streamkey_list_final) {
-      if (cnt % 2 == 1) {
-        if (cnt == streamkey_list_final.length-1) {
-          streamkey_stringify += url;
-        } else {
-          streamkey_stringify += (url+'^');
-        }
-      } else {
-        streamkey_stringify += (url+',');
+    for (let streamkey_id_mac of streamkey_id_mac_list) {
+      let {id, streamkey, mac} = streamkey_id_mac;
+      let arraySize = 3 //three streamkey for one student e.g. pc display, pc cam, phone
+      if (!endpoint_list.hasOwnProperty(id)) {
+        endpoint_list[id] = Array(3).fill(null);
       }
-      cnt++;
-    }
-    //null,null^null,rtmp://3.35.108.14/channel2/b765a706-66db-492f-88a9-77cf6d6b7a70^null,null^ rtmp://3.35.108.14/channel2/44ff9dde-fcbb-4e14-a4a7-0b25679bb188, rtmp://3.35.108.14/channel2/44ff9dde-fcbb-4e14-a4a7-0b2567dsfafa44^null,null
 
-    console.log('streamkey_stringify', streamkey_stringify)
-    res.end(streamkey_stringify);
+      if (streamkey != 'null') {
+        endpoint_list[id][parseInt(mac)] = rtmp_live_url + streamkey;
+
+      }
+    }
+
+    console.log('result of endpoint_list', JSON.stringify(endpoint_list));
+    //{"0000-00001":["rtmp://123/092cd759-822c-46fe-83ba-da0d4246374f","rtmp://123/35ff3014-d7ae-4389-a74f-0c6e900b27ec","rtmp://123/96a00cd5-94e5-4d92-aa10-2419e85870c1"],"0000-00002":["rtmp://123/ef3167d5-d3ad-4de0-89ef-94fec38cc69f","rtmp://123/17b6956b-130f-48f0-a065-7ae42208b3f8","rtmp://123/c82e1005-cea7-4402-aa04-7b1f90a4578a"],"0000-00003":["rtmp://123/e2b9ebc4-fee8-4e82-b80a-327176816393","rtmp://123/24a067c8-c183-4e86-bea5-91d8f0ed03a2","rtmp://123/fcf620d1-6c61-42ee-b697-5ac7e202a6a2"],"0000-00004":["rtmp://123/0ec78605-f1ae-4e02-893d-d7f6ebfda9d5","rtmp://123/a6fc7bfb-87c5-4f34-9923-8c37f434befa","rtmp://123/88e21cf8-53d0-453f-ac64-3f6865d56d98"],"0000-00005":["rtmp://123/9bf18a58-d7c9-4ece-aab7-14c0615da4e2","rtmp://123/9a70af2a-0735-4f47-abd8-214091732f7d","rtmp://123/796690b0-dcdb-4616-9e81-46cddad32ca7"]}
+
+    res.end(endpoint_list);
 
   } catch (err) {
     console.log(err);
     res.send(err.message);
   }
 });
-//     var files = fs.readdirSync(dir);
-//
-//     var lec_id = req.body.lec_id;
-//     var supervNum = req.body.supervNum;
-//
-//     let endlec = lec_id.indexOf("."); //10
-//     let lec = lec_id.substring(0, endlec);
-//
-//     let endtest = lec_id.indexOf("_");	//20
-//     let test = lec_id.substring(endlec+1, endtest);	//midterm_20210108
-//
-//     let testdate = lec_id.substring(endtest+1);
-//
-//     let token = req.body.token;
-//     let decoded = jwt.verify(token, secretObj.secret);
-//
-//     exec("node ./mysql_function/exam_activation_mysql.js 1 " + lec + " " + testdate);
-//
-//     var endpoints = "";
-//
-//     function delay() {
-//       return new Promise(function(resolve, reject){
-//         setTimeout(function(){
-//           resolve();
-//         }, 100)
-//       })
-//     }
-//
-//     async function test1() {
-//     console.log(files.length);
-//       for(var i = 0; i < files.length; i++){
-//         var file = files[i];
-//
-//         var startindex = file.indexOf("_");
-//         var suffix = file.substr(startindex + 1);
-//
-//         console.log(suffix);
-//
-//         if (suffix == lec_id + "_" + supervNum + ".txt"){
-//             fs.readFile(dir + file, function(err, buf){
-//                 var str2 = buf.toString().replace(/(\r\n\t|\n|\r\t)/gm,"");
-//                 endpoints += str2 + " ";
-//                 console.log("endpoint:" + endpoints);
-//
-//
-//             });
-//
-//         }
-//         await delay();
-//         //fs.writeFile(dir + file, str2.slice(0, -2) + "_0");
-//       }
-//       setTimeout(function() {
-//           for (var j = 0; j < files.length; j++){
-//               let file = files[j];
-//
-//               var startindex = file.indexOf("_");
-//               var suffix = file.substr(startindex + 1);
-//
-//               console.log(suffix);
-//
-//
-//
-//               if (suffix == lec_id + "_" + supervNum + ".txt"){
-//                   var strtemp = fs.readFileSync(dir + file);
-//                     let str3 = strtemp.toString().replace(/(\r\n\t|\n|\r\t)/gm,"");
-//                     fs.writeFileSync(dir + file, str3.slice(0, -2) + "_0");
-//
-//               }
-//
-//           }
-//       }, 100);
-//       if (decoded) {
-//           if(endpoints == ""){
-//               res.send("null");
-//           }
-//           else{
-//               res.send(endpoints.slice(0, -1));
-//           }
-//       }
-//       else {
-//           res.send('Invalid token');
-//       }
-//     }
-//     test1();
-//
-//
-// });
 
 module.exports = app;
