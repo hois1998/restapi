@@ -14,9 +14,9 @@ module.exports = async function(tablename, streamkey, prevState, nextState) {
 
     //find prevState of 'examDone' column on 'tablename' table
     const row = (await connection.execute("SELECT "+column+" FROM "+tablename+" WHERE streamkey='"+streamkey+"'"))[0];
-    const data = row[column];
+    const data = row[0][column];
 
-    if (row[column] != prevState)
+    if (data != prevState)
       throw new Error(`previous state is not expected data: expected= ${prevState} actual=${data}`);
 
     await connection.execute("UPDATE "+tablename+" SET "+column+ "= '"+nextState+"' WHERE streamkey= '"+streamkey+"'");
