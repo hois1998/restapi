@@ -29,6 +29,7 @@ let delete_student_data = require('./routes/delete_student_data');
 let server_to_server = require('./routes/server_to_server');
 let object_detection = require('./routes/object_detection');
 let face_recognition = require('./routes/face_recognition');
+let exam_termination = require('./routes/exam_termination');
 
 let app = express();
 
@@ -67,6 +68,7 @@ app.use('/delete_student_data', delete_student_data);
 app.use('/server_to_server', server_to_server);
 app.use('/object_detection', object_detection);
 app.use('/face_recognition', face_recognition);
+app.use('/exam_termination', exam_termination);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

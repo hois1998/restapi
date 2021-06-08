@@ -22,20 +22,26 @@ app.post('/', async function(req, res, next) {
 
   try {
     const {tablename, token} = req.body;
-    const decoded = jwt.verify(token, secretObj.secret);  //if not valid, thorw error
+	//for test
+    //const decoded = jwt.verify(token, secretObj.secret);  //if not valid, thorw error
 
-    if (tablename == undefined || supervNum == undefined) {
+    if (tablename == undefined ) {
       throw new Error('user omits information');
     }
 
     let starttime = tablename.split('_')[3];
-    let startMin = parseInt(starttime.slice(0,2)) + parseInt(starttime.slice(2,4))*60;
+    let startMin = parseInt(starttime.slice(0,2)) * 60+ parseInt(starttime.slice(2,4));
     let nowMin = (new Date()).getHours()*60+(new Date()).getMinutes();
-    if (startMin <= nowMin)
+    if (startMin > nowMin) {
+	  console.log(`${nowMin} and startMin ${startMin}`);
       throw new Error('you tried to end exam even before it start');
-      
+    }
+
     for (let rtmpServerIpAddr of rtmpServerList) {
-      execFileSync('curl', ['-X', 'POST', `http://${rtmpServerIpAddr}}/exam_termination`, '-d', `tablename=${tablename}`]);
+	  //test
+	  console.log(rtmpServerIpAddr);
+	  ///
+      execFileSync('curl', ['-X', 'POST', "http://"+rtmpServerIpAddr+":3333/exam_termination", '-d', "tablename="+tablename]);
 
       res.send('success');
     }
@@ -43,3 +49,5 @@ app.post('/', async function(req, res, next) {
     res.send(`got error ${err}`);
   }
 });
+
+module.exports =app;

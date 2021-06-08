@@ -40,7 +40,8 @@ app.post('/', async function(req, res, next) {
     }
 
     const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
-
+	
+	console.log(`websocket start tablename: ${tablename} and supervNum ${supervNum}`);
     //websocket을 켠다.
     execFile('node', ['/home/ubuntu/rest_api/Rest_API_Server/restapi/websocket/app.js', tablename, supervNum, JSON.stringify(errorJson)], (err, stdout, stderr) => {
       console.log(stdout);

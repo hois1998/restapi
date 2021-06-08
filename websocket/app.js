@@ -49,10 +49,11 @@ let createError = require('http-errors');
 
 // http server를 socket.io server로 upgrade한다
 let io = require('socket.io')(server);
+
 let tablename = process.argv[2], supervNum = process.argv[3];
 let errorJsonStringified = process.argv[4];
 
-console.log(`tablename: ${tablename}\nsupervnum: ${supervNum}\nerrorJson: ${JSON.stringify(errorJson,null,4)}`);
+console.log(`tablename: ${tablename}\nsupervnum: ${supervNum}\nerrorJson: ${errorJsonStringified}`);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -67,14 +68,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   res.send(__dirname + '/index.html');
 // });
 
-let key = tablename+supervNum;
+let key = tablename+'_'+supervNum;
+console.log(key);
 
 // connection event handler
 // connection이 수립되면 event handler function의 인자로 socket인 들어온다
 io.on('connection', function(socket) {
-  socket.emit(key, errorJsonStringified);
+  socket.emit('test', errorJsonStringified, (msg) => {
+	console.log(msg);
+	process.kill(1);
+  });
 
-  process.exit(1);
+  socket.emit('welcome', 'welcome!!!');
+
+  //process.exit(1);
 });
 
 // // 클라이언트로부터의 메시지가 수신되면
@@ -102,8 +109,8 @@ io.on('connection', function(socket) {
 //   // io.to(id).emit('s2c chat', data);
 // });
 
+module.exports = app;
 
-
-server.listen(3100, function() {
+server.listen(3100, '0.0.0.0' ,function() {
   console.log('Socket IO server listening on port 3100');
 });

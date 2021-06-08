@@ -79,17 +79,20 @@ app.post('/', async function(req, res, next) {
     res.send(rtmpEndpoint);
 
     const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
-    const s3_location = '/media'+'/'+date+'/'+lec+'/'+time+'/'+supervNum+'/'+streamkey;
+    const s3_location_temp = '/media'+'/'+date+'/'+lec+'/'+time+'/'+supervNum+'/';
 
     ///////////////test///////////
-    console.log('streaming_termination.js s3_location\n'+s3_location);
+    console.log('streaming_termination.js s3_location\n'+s3_location_temp);
     /////////////////////////////
 
     //multiple post on dynamodb is okay. it cover previous same data
-    let postResult = await put_video_data(num, lecAndDate, mac, s3_location).catch(err => {throw err;});
+	for (let prop in streamkey) {
+		 let temp_key = streamkey[prop];
+		 await put_video_data(num, lecAndDate, prop, s3_location_temp+temp_key).catch(err => {throw err;});
+	}
 
     ///////////////test
-    console.log('vidoe post results\n', postResult);
+    //console.log('vidoe post results\n', postResult);
     ////////////////////
 
   } catch(err) {
