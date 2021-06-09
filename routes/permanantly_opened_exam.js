@@ -1,6 +1,5 @@
 //this code is for
-//1. create exam every day and add five students for the test
-
+//create exam every day and add five students for the test
 const mysql = require('mysql2/promise');
 
 const mysqlConnnectionOpt = require('/home/ubuntu/rest_api/Rest_API_Server/restapi/config/mysql_connection_option');
