@@ -48,7 +48,7 @@ app.post('/', async function(req, res, next) {
     }
 
     console.log('add_exam_data', mail_address, PW, lec, test, testdate, starttime, endtime, tablename, lec_num, lec_id);
-    
+
     const result = await add_exam_data_mysql(mail_address, PW, lec, test, testdate, starttime, endtime, tablename, lec_num, lec_id);
     if (result instanceof Error) {
       throw result;
