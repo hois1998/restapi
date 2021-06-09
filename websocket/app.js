@@ -76,7 +76,7 @@ console.log(key);
 io.on('connection', function(socket) {
   socket.emit('test', errorJsonStringified, (msg) => {
 	console.log(msg);
-	process.kill(1);
+	//process.kill(1);
   });
 
   socket.emit('welcome', 'welcome!!!');

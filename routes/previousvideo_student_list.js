@@ -30,7 +30,7 @@ app.post('/', async function(req, res, next) {
     console.log(result);
     let returnStr = '';
 
-    for (let i=0; i<result.length; ++i) {
+    for (let i=0; i<result.length; i += 3) {
       if (result[i].streamkey != null && result[i].streamkey != 'null') {
         if (returnStr.length > 0) returnStr += '^';
         returnStr += result[i].id+','+result[i].name+','+result[i].supervNum;
