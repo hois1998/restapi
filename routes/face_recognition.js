@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {execFile} = require('child_process');
+const fs =require('fs');
 
 const add_face_recognition_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_face_recognition_mysql");
 const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");  //to get supervNum
@@ -24,10 +25,11 @@ app.post('/', async function(req, res, next) {
     }
 
     let errorJson = {};
-
+    let errorPolling = {};
     position = JSON.parse(position);
 
     errorJson[detectTime] = {degree: degree, position: position};
+    errorPolling = {degree: degree, position: position};
 
     console.log('errorJson\n', errorJson);
 
@@ -40,12 +42,14 @@ app.post('/', async function(req, res, next) {
     }
 
     const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
-	
-	console.log(`websocket start tablename: ${tablename} and supervNum ${supervNum}`);
+
+	  // console.log(`websocket start tablename: ${tablename} and supervNum ${supervNum}`);
     //websocket을 켠다.
-    execFile('node', ['/home/ubuntu/rest_api/Rest_API_Server/restapi/websocket/app.js', tablename, supervNum, JSON.stringify(errorJson)], (err, stdout, stderr) => {
-      console.log(stdout);
-    });
+    // execFile('node', ['/home/ubuntu/rest_api/Rest_API_Server/restapi/websocket/app.js', tablename, supervNum, JSON.stringify(errorJson)], (err, stdout, stderr) => {
+    //   console.log(stdout);
+    // });
+    //polling 될 컨텐츠를 만든다.
+    fs.appendFileSync(`/media/polling/face_${tablename}_${supervNum}.txt`, num+'^'+mac+'_'+JSON.stringify(errorPolling)+'\n');
 
   } catch (err) {
     console.log(err);

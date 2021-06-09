@@ -2,8 +2,10 @@
 //when students phone camera detect suspicious objects while taking exam, it send the objects data to server
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs =require('fs');
 
 const add_object_detection_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/add_object_detection_mysql");
+const Identification_mysql = require("/home/ubuntu/rest_api/Rest_API_Server/restapi/mysql_function/Identification_mysql");  //to get supervNum
 
 let app = express();
 
@@ -25,15 +27,23 @@ app.post('/', async function(req, res, next) {
     console.log('object_parsed\n', object_parsed);
 
     let errorJson = {};
+    let errorPolling = {};
+
     errorJson[detectTime] = object_parsed;
+
+
     let result = await add_object_detection_mysql(num, tablename, mac, errorJson);
-	
+
 
     if (result == 'success') {
         res.send('success');
     } else {
       throw new Error('err occur on add_object_detection_mysql');
     }
+
+    const supervNum = (await Identification_mysql(num, tablename, mac)).supervNum;
+
+    fs.appendFileSync(`/media/polling/object_${tablename}_${supervNum}.txt`, num+'^'+mac+'_'+JSON.stringify(object_parsed)+'\n');
 
   } catch (err) {
     console.log(err);
