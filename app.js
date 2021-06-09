@@ -70,7 +70,7 @@ app.use('/server_to_server', server_to_server);
 app.use('/object_detection', object_detection);
 app.use('/face_recognition', face_recognition);
 app.use('/exam_termination', exam_termination);
-app.use('./viewer_live_polling', viewer_live_polling);
+app.use('/viewer_live_polling', viewer_live_polling);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,5 @@
 const express = require('express');
-const { exec, execSync } = require("child_process");
+const fs = require("fs");
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 
@@ -23,7 +23,7 @@ app.post('/', async function(req, res, next) {
     // const decoded = jwt.verify(token, secretObj.secret);
 
     //for test, ignore token
-    if (!tablename || !supervNum || /*!token*/) {
+    if (!tablename || !supervNum /*|| !token*/) {
       throw new Error('user omits information');
     }
 
@@ -32,7 +32,7 @@ app.post('/', async function(req, res, next) {
     let face_temp, object_temp;
     //check face
     if(fs.existsSync(`/media/polling/face_${tablename}_${supervNum}.txt`)) {
-      face_temp =fs.readFileSync(`/media/polling/face_${tablename}_${supervNum}.txt`).split('\n').trim();
+      face_temp =fs.readFileSync(`/media/polling/face_${tablename}_${supervNum}.txt`).toString().trim().split('\n');
 
       fs.unlinkSync(`/media/polling/face_${tablename}_${supervNum}.txt`);
 
@@ -49,7 +49,7 @@ app.post('/', async function(req, res, next) {
 
     //check objects
     if(fs.existsSync(`/media/polling/object_${tablename}_${supervNum}.txt`)) {
-      object_temp =fs.readFileSync(`/media/polling/object_${tablename}_${supervNum}.txt`).split('\n').trim();
+      object_temp =fs.readFileSync(`/media/polling/object_${tablename}_${supervNum}.txt`).toString().trim().split('\n');
 
       fs.unlinkSync(`/media/polling/object_${tablename}_${supervNum}.txt`);
 
