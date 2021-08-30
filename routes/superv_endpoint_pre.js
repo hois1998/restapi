@@ -42,7 +42,7 @@ app.post('/', async function(req, res, next) {
     let date = year + month + day;  // prints date in YYYYMMDD format
     console.log('date obj', date);
     let today_lec_id = [];
-    let max_lec_id = 8;
+    let max_lec_id = 20;
 
     for (let i=1; i<=max_lec_id; ++i) {
       let lec_id = faculty_information['lec_id'+i];

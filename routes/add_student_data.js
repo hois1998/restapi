@@ -31,7 +31,7 @@ app.post('/', async function(req, res, next) {
       throw result;
     }
 
-    res.send('add studnet data success');
+    res.send('add student data success');
 
   } catch(err) {
     console.log(err);

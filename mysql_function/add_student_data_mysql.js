@@ -11,9 +11,10 @@ module.exports = async function(studentNum, studentName, supervNum, tablename) {
 
     //if studentNum you are trying to regist alrealy exist on DB, return 'already exist error'
     let [rows, field] = await connection.execute('SELECT * FROM '+tablename+' WHERE `id` = ?', [studentNum]);
-    // console.log('rows', rows[0]);
+    console.log('rows', rows[0]);
     if (rows[0] != undefined) {
-      throw new Error(`studnet(${studentNum}) is already registerd`);
+      console.log('this is debuggin message');
+      throw new Error(`student(${studentNum}) is already registered`);
     }
 
     //below, null is type of string not null type
